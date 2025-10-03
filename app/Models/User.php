@@ -6,8 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @mixin IdeHelperUser
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -21,6 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar'
     ];
 
     /**
@@ -44,4 +49,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $appends=['avatar_url'];
+
+    public function getAvatarUrlAttribute()
+    {
+         if($this->avatar && Storage::disk('avatars')->exists($this->avatar))
+                {
+                  return Storage::disk('avatars')->url($this->avatar);
+                }else{
+                  return asset('backend/avatars/default-avatar.png');
+                }
+
+
+    }
 }

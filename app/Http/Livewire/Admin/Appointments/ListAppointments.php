@@ -8,8 +8,11 @@ use Livewire\Component;
 
 class ListAppointments extends AdminComponent
 {
+    protected $queryString=['status'];
     protected $listeners=['deleteConfirmed'=>'deleteAppointment'];
     public $appointmentIdBeingRemoved=null;
+    public $status;
+
 
     public function confirmAppointmentRemoval($appointmentId)
     {
@@ -22,11 +25,29 @@ class ListAppointments extends AdminComponent
        $appointment->delete();
        $this->dispatchBrowserEvent('deleted',['message'=>'Appointment deleted successfully']);
     }
+    public function filterAppointmentByStatus($status=null)
+    {
+        $this->resetPage();
+        $this->status=$status;
+    }
     public function render()
     {
-        $appointments=Appointment::with('client')->latest()->paginate();
+        $appointmentCount=Appointment::count();
+        $scheduledAppointmentCount=Appointment::where('status','scheduled')->count();
+        $closedAppointmentCount=Appointment::where('status','closed')->count();
+
+        $appointments=Appointment::with('client')
+                      ->when($this->status,function($query,$status){
+                           //dd($status);
+                          return $query->where('status',$status);
+                      })
+                      ->latest()
+                      ->paginate(1);
         return view('livewire.admin.appointments.list-appointments',[
-            'appointments'=>$appointments
+            'appointments'=>$appointments,
+            'appointmentCount'=>$appointmentCount,
+            'scheduledAppointmentCount'=>$scheduledAppointmentCount,
+            'closedAppointmentCount'=>$closedAppointmentCount
         ]);
     }
 }
