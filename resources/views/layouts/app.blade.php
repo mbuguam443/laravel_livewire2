@@ -20,6 +20,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link href="{{ asset('backend/plugins/toastr/toastr.min.css')}} " rel="stylesheet">
+      <!-- iCheck -->
+    <link rel="stylesheet" href="{{ asset('backend/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <livewire:styles />
     @stack('styles')
 
@@ -109,6 +111,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             });
 
             window.addEventListener('deleted', event => {
+               console.log("Deleted called.....");
                 Swal.fire({
                     title: "Deleted!",
                     text: event.detail.message,

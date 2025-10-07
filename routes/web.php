@@ -25,8 +25,11 @@ Route::get('/test', function () {
     return view('test');
 });
 
-Route::get('admin/dashboard',Dashboardcontroller::class)->name('admin.dashboard');
-Route::get('admin/users',ListUsers::class)->name('admin.users');
-Route::get('admin/appointments',ListAppointments::class)->name('admin.appointments');
-Route::get('admin/appointments/create',CreateAppointmentForm::class)->name('admin.appointments.create');
-Route::get('admin/appointments/{appointment}/edit',UpdateAppointmentForm::class)->name('admin.appointments.edit');
+Route::group(['middleware'=>'auth'],function(){
+        Route::get('admin/dashboard',Dashboardcontroller::class)->name('admin.dashboard');
+        Route::get('admin/users',ListUsers::class)->name('admin.users');
+        Route::get('admin/appointments',ListAppointments::class)->name('admin.appointments');
+        Route::get('admin/appointments/create',CreateAppointmentForm::class)->name('admin.appointments.create');
+        Route::get('admin/appointments/{appointment}/edit',UpdateAppointmentForm::class)->name('admin.appointments.edit');
+});
+
