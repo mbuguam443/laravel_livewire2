@@ -26,6 +26,10 @@
                     <livewire:admin.dashboard.user-count/>
                     <!-- ./col -->
                 </div>
+                <div class="row">
+                    <livewire:admin.dashboard.analytics/>
+                    <!-- ./col -->
+                </div>
                 <!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>

@@ -37,6 +37,7 @@
                                 <a wire:click.prevent="deleteSelectedRows" class="dropdown-item" href="#">Delete selected</a>
                                 <a wire:click.prevent="markAllAsScheduled" class="dropdown-item" href="#">Mark as Scheduled</a>
                                 <a wire:click.prevent="markAllAsClosed" class="dropdown-item" href="#">Mark as Closed</a>
+                                <a wire:click.prevent="export" class="dropdown-item" href="#">Export</a>
                             </div>
                         </div>
                         <span>Selected {{count($SelectedRows)}} {{Str::plural('appointment',count($SelectedRows))}}</span>

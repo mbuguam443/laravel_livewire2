@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Admin\Appointments;
 
+use App\Exports\AppointmentsExport;
 use App\Http\Livewire\Admin\AdminComponent;
 use App\Models\Appointment;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ListAppointments extends AdminComponent
 {
@@ -28,6 +30,16 @@ class ListAppointments extends AdminComponent
         Appointment::whereIn('id',$this->SelectedRows)->update(['status'=>'CLOSED']);
         $this->reset(['SelectedRows','selectPageRows']);
     }
+
+    public function export()
+    {
+
+        //dd("exported");
+        //return Excel::download(new AppointmentsExport,'appointment.xlsx');
+        return (new AppointmentsExport($this->SelectedRows))->download('appointment.xlsx');
+    }
+
+
 
     public function updatedselectPageRows($value)
     {
